@@ -17,24 +17,25 @@ const retryInterval = 3; // seconds
 // When this function is called we have successfully connected to a server
 function connectedToServer() {
   status("Connected");
+  retryCount = 0;
 }
 
 // This function is called when we are disconnected
 function disconnectedFromServer(e) {
-  if (e.detail.clean) {
-    status("Disconnected");
+  // if (e.detail.clean) {
+  //   status("Disconnected");
+  // } else {
+  status("Something went wrong, connection is closed");
+  if (retryCount < maxRetryCount) {
+    status(`Reconnecting in ${retryInterval} seconds`);
+    setTimeout(() => {
+      connect();
+      retryCount++;
+    }, retryInterval * 1000);
   } else {
-    status("Something went wrong, connection is closed");
-    if (retryCount < maxRetryCount) {
-      status(`Reconnecting in ${retryInterval} seconds`);
-      setTimeout(() => {
-        connect();
-        retryCount++;
-      }, retryInterval * 1000);
-    } else {
-      status("Failed to connect, giving up");
-    }
+    status("Failed to connect, giving up");
   }
+  // }
 }
 
 // Show a status text in the top bar
