@@ -22,9 +22,6 @@ function connectedToServer() {
 
 // This function is called when we are disconnected
 function disconnectedFromServer(e) {
-  // if (e.detail.clean) {
-  //   status("Disconnected");
-  // } else {
   status("Something went wrong, connection is closed");
   if (retryCount < maxRetryCount) {
     status(`Reconnecting in ${retryInterval} seconds`);
@@ -35,7 +32,6 @@ function disconnectedFromServer(e) {
   } else {
     status("Failed to connect, giving up");
   }
-  // }
 }
 
 // Show a status text in the top bar
